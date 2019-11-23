@@ -4,6 +4,7 @@ require "rails_helper"
 
 describe Season do
   specify { is_expected.to have_many(:episodes) }
+  specify { is_expected.to have_many(:purchase_options) }
 
   it_validates_presence_of(:title, :plot, :number)
   specify { is_expected.to validate_numericality_of(:number).is_greater_than(0) }

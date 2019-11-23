@@ -5,10 +5,9 @@ module WatchableAttributes
   extend ActiveSupport::Concern
 
   included do
-    attributes :id, :title, :plot, :created_at
-  end
+    include DateTimeAttributes
 
-  def created_at
-    object.created_at.to_i
+    attributes :id, :title, :plot
+    date_time_attributes :created_at
   end
 end

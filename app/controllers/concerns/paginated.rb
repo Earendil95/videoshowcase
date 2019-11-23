@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Module that provides method to easily collect pagination data from paginated collection
+# This module provides methods to easily collect pagination data from paginated collection
+# and simplify rendering paginated collection
 module Paginated
   def render_paginated_json(collection, **options)
     render json: collection, **default_options(collection).reverse_merge(options)

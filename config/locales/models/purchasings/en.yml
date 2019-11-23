@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        purchasing:
+          attributes:
+            content:
+              purchased: has already been purchased

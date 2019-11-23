@@ -2,10 +2,6 @@
 
 # Model for movies
 class Movie < Content
-  has_many :purchase_options, inverse_of: :content,
-                              foreign_key: :content_id,
-                              dependent: :destroy
-
   validate :number_is_nil
 
   private

@@ -7,18 +7,19 @@ class PurchasingsController < ApplicationController
   def create
     purchasing = Purchasing.new(purchasing_params)
     if purchasing.save
-      render json: purchasing, serializer: PurchasingSerializer
+      render json: purchasing, serializer: PurchasingSerializer,
+             include: %w[purchase_option content.episodes]
     else
       render json: { errors: purchasing.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def index
-    collection = user.purchasings.includes(:purchase_option, :content)
+    collection = user.purchasings.includes(:purchase_option, content: :episodes)
                      .active.order(expires_at: :asc)
                      .page(params[:page]).per(params[:per_page])
 
-    render_paginated_json collection, include: %i[content purchase_option]
+    render_paginated_json collection, include: %w[purchase_option content.episodes]
   end
 
   private

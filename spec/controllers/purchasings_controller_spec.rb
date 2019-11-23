@@ -20,15 +20,29 @@ describe PurchasingsController do
 
     it "responds with purchasing", :aggregate_failures do # rubocop:disable RSpec/ExampleLength
       expect(creation.body).to be_json_eql(movie.id).at_path("purchasing/content/id")
-      expect(creation.body).to be_json_eql("Movie".to_json).at_path("purchasing/content/type")
+      expect(creation.body).to be_json_eql("Movie".to_json).at_path("purchasing/content_type")
       expect(creation.body).to be_json_eql(movie.title.to_json).at_path("purchasing/content/title")
       expect(creation.body).to be_json_eql(movie.plot.to_json).at_path("purchasing/content/plot")
-      expect(creation.body).to be_json_eql("null").at_path("purchasing/content/number")
       expect(creation.body).to be_json_eql(purchase_option.quality.to_json)
         .at_path("purchasing/purchase_option/quality")
       expect(creation.body).to have_json_path("purchasing/id")
       expect(creation.body).to have_json_path("purchasing/expires_at")
       expect(creation.body).to have_json_path("purchasing/created_at")
+    end
+
+    context "when content is season" do
+      let(:season) { create :season, episodes_count: 1 }
+      let(:purchase_option) { create :purchase_option, content: season }
+      let(:params) { Hash[user_id: user.id, purchase_option_id: purchase_option.id] }
+
+      it "responds with purchasing", :aggregate_failures do # rubocop:disable RSpec/ExampleLength
+        expect(creation.body).to be_json_eql(season.id).at_path("purchasing/content/id")
+        expect(creation.body).to be_json_eql("Season".to_json).at_path("purchasing/content_type")
+        expect(creation.body).to be_json_eql(season.title.to_json).at_path("purchasing/content/title")
+        expect(creation.body).to be_json_eql(season.plot.to_json).at_path("purchasing/content/plot")
+        expect(creation.body).to be_json_eql(season.number).at_path("purchasing/content/number")
+        expect(creation.body).to have_json_size(1).at_path("purchasing/content/episodes")
+      end
     end
 
     context "when active purchasing exists" do

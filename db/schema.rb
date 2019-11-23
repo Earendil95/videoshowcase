@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_23_003504) do
+ActiveRecord::Schema.define(version: 2019_11_23_013656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 2019_11_23_003504) do
     t.index ["content_id"], name: "index_purchase_options_on_content_id"
   end
 
+  create_table "purchasings", force: :cascade do |t|
+    t.bigint "purchase_option_id", null: false
+    t.bigint "content_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "expires_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content_id"], name: "index_purchasings_on_content_id"
+    t.index ["purchase_option_id"], name: "index_purchasings_on_purchase_option_id"
+    t.index ["user_id"], name: "index_purchasings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.text "email"
     t.datetime "created_at", precision: 6, null: false
@@ -52,4 +64,7 @@ ActiveRecord::Schema.define(version: 2019_11_23_003504) do
 
   add_foreign_key "episodes", "contents", column: "season_id"
   add_foreign_key "purchase_options", "contents"
+  add_foreign_key "purchasings", "contents"
+  add_foreign_key "purchasings", "purchase_options"
+  add_foreign_key "purchasings", "users"
 end

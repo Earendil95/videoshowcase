@@ -1,0 +1,13 @@
+version: '3.6'
+x-volumes:
+  &default-volumes
+  - bundle_cache:/bundle
+  - videoshowcase-unison-sync:/videoshowcase:nocopy
+
+services:
+  web:
+    volumes: *default-volumes
+
+volumes:
+  videoshowcase-unison-sync:
+    external: true

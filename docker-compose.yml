@@ -1,0 +1,35 @@
+version: '3.6'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: videoshowcase-app
+    command: >
+      bash -c "rm -f tmp/pids/server.pid &&
+        RAILS_ENV=development bundle exec rails s -p 3000 -b '0.0.0.0'"
+    tty: true
+    stdin_open: true
+    volumes:
+      - bundle_cache:/bundle
+      - .:/videoshowcase
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:11.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=videoshowcase
+      - POSTGRES_PASSWORD=videoshowcase
+    volumes:
+      - pgdata:/var/lib/postgresql/11.5/data
+
+volumes:
+  bundle_cache:
+  pgdata:

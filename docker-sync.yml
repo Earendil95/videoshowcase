@@ -1,0 +1,20 @@
+version: "2"
+options:
+  verbose: false
+  max-attempt: 10
+  compose-file-path: 'docker-compose.yml'
+  compose-dev-file-path: 'docker-compose.mac.yml'
+  unison_image: 'eugenmayer/unison:2.51.2.1'
+syncs:
+  videoshowcase-unison-sync:
+    # notify_terminal: true
+    src: '.'
+    sync_strategy: 'unison'
+    sync_excludes: ['._.DS_Store', 
+                    '.git', 
+                    '.gitignore', 
+                    '.idea', 
+                    'log', 
+                    'tmp/data/meta_request']
+    # the files should be own by root in the target cointainer
+    # sync_userid: 0

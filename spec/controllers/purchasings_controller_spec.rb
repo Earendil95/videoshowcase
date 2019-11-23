@@ -38,7 +38,8 @@ describe PurchasingsController do
       it "responds with purchasing", :aggregate_failures do # rubocop:disable RSpec/ExampleLength
         expect(creation.body).to be_json_eql(season.id).at_path("purchasing/content/id")
         expect(creation.body).to be_json_eql("Season".to_json).at_path("purchasing/content_type")
-        expect(creation.body).to be_json_eql(season.title.to_json).at_path("purchasing/content/title")
+        expect(creation.body).to be_json_eql(season.title.to_json)
+          .at_path("purchasing/content/title")
         expect(creation.body).to be_json_eql(season.plot.to_json).at_path("purchasing/content/plot")
         expect(creation.body).to be_json_eql(season.number).at_path("purchasing/content/number")
         expect(creation.body).to have_json_size(1).at_path("purchasing/content/episodes")
@@ -71,10 +72,15 @@ describe PurchasingsController do
 
     let_it_be(:purchasing) { create :purchasing, user: user }
     let_it_be(:second_purchasing) { create :purchasing, user: user, expires_at: 1.day.from_now }
+    let_it_be(:expired_purchasing) { create :purchasing, user: user, expires_at: 1.day.ago }
 
     let(:params) { Hash[user_id: user.id] }
 
     specify { is_expected.to be_successful }
+
+    it "returns only active purchasings" do
+      expect(response.body).to have_json_size(2).at_path("purchasings")
+    end
 
     it "returns correct values", :aggregate_failures do
       # checking only order because fields were checked above

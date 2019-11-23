@@ -11,10 +11,10 @@ describe User do
   context "when validating email" do
     subject(:user) { build :user }
 
-    [
-      "user@mail.ru",
-      "super+man1292@ny.journal.city.ru",
-      "best_of_the_best@cryzis.games.state-machine.de"
+    %w[
+      user@mail.ru
+      super+man1292@ny.journal.city.ru
+      best_of_the_best@cryzis.games.state-machine.de
     ].each do |v|
       it "#{v} is valid" do
         user.email = v

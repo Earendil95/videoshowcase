@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     after(:create) do |season, evaluator|
-      evaluator.episodes_count.times.with_index do |number|
+      evaluator.episodes_count.times do |number|
         create :episode, season: season, number: number + 1
       end
     end

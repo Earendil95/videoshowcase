@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 describe User do
+  specify { is_expected.to have_many(:purchasings) }
+
   it_validates_presence_of(:email)
 
   # this spec will check our before_validation callback as well

@@ -2,6 +2,8 @@
 
 # model for users
 class User < ApplicationRecord
+  has_many :purchasings
+
   # For better search using index users on email
   # we don't use `uniqueness: { case_sensitive: false }` here
   # becase in this case we should add unique index on `LOWER(email)` instead of `email`

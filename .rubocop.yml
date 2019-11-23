@@ -1,0 +1,28 @@
+AllCops:
+  Exclude:
+    - db/**/*.rb
+
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - config/**/*.rb
+
+require: rubocop-rspec
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  Exclude:
+    - Gemfile
+    - Rakefile
+    - bin/**
+    - config.ru
+    - config/**/*.rb
+
+Style/Documentation:
+  Exclude:
+    - config/**/*.rb
+    - spec/**/*.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb

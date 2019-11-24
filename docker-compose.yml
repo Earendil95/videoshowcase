@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: videoshowcase-app
     command: >
-      bash -c "rm -f tmp/pids/server.pid &&
+      bash -c "rm -f tmp/pids/server.pid && (bundle check || bundle) &&
         RAILS_ENV=development bundle exec rails s -p 3000 -b '0.0.0.0'"
     tty: true
     stdin_open: true
